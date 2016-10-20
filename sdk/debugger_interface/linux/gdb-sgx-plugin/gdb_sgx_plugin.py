@@ -528,11 +528,13 @@ class UpdateOcallFrame(gdb.Breakpoint):
                 return False
             trusted_ocall_frame_tuple = struct.unpack_from(trusted_of_fmt, trusted_ocall_frame)
 
-            gdb_cmd = "set *(uintptr_t *)%#x = 0" %(ocall_frame)
+            gdb_cmd = "set *(uintptr_t *)%#x = 0" %(int(ocall_frame))
             gdb.execute(gdb_cmd, False, True)
-            gdb_cmd = "set *(uintptr_t *)%#x = %#x" %(ocall_frame+(2*SIZE), trusted_ocall_frame_tuple[11])
+            gdb_cmd = "set *(uintptr_t *)%#x = %#x" %(int(ocall_frame+(2*SIZE)),
+                                                      int(trusted_ocall_frame_tuple[11]))
             gdb.execute(gdb_cmd, False, True)
-            gdb_cmd = "set *(uintptr_t *)%#x = %#x" %(ocall_frame+(3*SIZE), trusted_ocall_frame_tuple[19])
+            gdb_cmd = "set *(uintptr_t *)%#x = %#x" %(int(ocall_frame+(3*SIZE)),
+                                                      int(trusted_ocall_frame_tuple[19]))
             gdb.execute(gdb_cmd, False, True)
 
         return False
